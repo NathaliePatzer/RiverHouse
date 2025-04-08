@@ -1,11 +1,11 @@
-#include "Scene4.h"
+#include "Scene5.h"
 
-CScene4::CScene4()
+CScene5::CScene5()
 {
 	pCamera = NULL;
 	pTexto = NULL;
 	pTextures = NULL;
-	
+
 	bIsWireframe = false;
 	bIsCameraFPS = true;
 
@@ -30,13 +30,17 @@ CScene4::CScene4()
 	// Carrega todas as texturas
 	//pTextures = new CTexture();	
 
-	fZ = -5.0f;
-	up = true;
-
+	c = {};
+	cubes0 = {};
+	cubes1 = {};
+	cubes2 = {};
+	cubes3 = {};
+	cubes4 = {};
+	size = 0;
 }
 
 
-CScene4::~CScene4(void)
+CScene5::~CScene5(void)
 {
 	if (pTexto)
 	{
@@ -60,13 +64,13 @@ CScene4::~CScene4(void)
 	{
 		delete pTimer;
 		pTimer = NULL;
-	}	
+	}
 }
 
 
 
 
-int CScene4::DrawGLScene(void)	// Função que desenha a cena
+int CScene5::DrawGLScene(void)	// Função que desenha a cena
 {
 	// Get FPS
 	if (GetTickCount() - ulLastFPS >= 1000)	// When A Second Has Passed...
@@ -76,7 +80,7 @@ int CScene4::DrawGLScene(void)	// Função que desenha a cena
 		iFrames = 0;							// Reset The FPS Counter
 	}
 	iFrames++;									// FPS counter
-	
+
 	pTimer->Update();							// Atualiza o timer
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Limpa a tela e o Depth Buffer
@@ -87,7 +91,7 @@ int CScene4::DrawGLScene(void)	// Função que desenha a cena
 	pCamera->setView();
 
 	// Desenha grid 
-	//Draw3DSGrid(20.0f, 20.0f);
+	Draw3DSGrid(20.0f, 20.0f);
 
 	// Desenha os eixos do sistema cartesiano
 	DrawAxis();
@@ -96,119 +100,113 @@ int CScene4::DrawGLScene(void)	// Função que desenha a cena
 	if (bIsWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//                               DESENHA OS OBJETOS DA CENA (INÍCIO)
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	float seg = pTimer->GetTime() / 1000.0f;
+	//int size = 0;
 	
-	//Chão
-	glBegin(GL_QUADS);
-	glColor3ub(153, 189, 199);
-	glVertex3f(-30.0f, 0.0f, 30.0f);
-	glVertex3f(30.0f, 0.0f, 30.0f);
-	glVertex3f(30.0f, 0.0f, -30.0f);
-	glVertex3f(-30.0f, 0.0f, -30.0f);
-	glEnd();
 
-	//Boneco de neve 
-	glPushMatrix();
-		//esfera maior
-		glTranslatef(-2.0f, 1.8f, 0.0);
-		glRotatef(fZ, 0.0f, 0.0f, 1.0f);
-		glColor3ub(218, 229, 232);
-		auxSolidSphere(2.0);
+		if (seg > 1.0f) {
+
+			Cube c;
+			int x = rand() % 5;
+			pTimer->Init();
+
+			if (x == 0) {
+				if (cubes0.size() < 10) {
+					c.red = rand() % 255;
+					c.green = rand() % 255;
+					c.blue = rand() % 255;
+					c.x = x;
+					c.y = cubes0.size();
+					size = cubes0.size();
+					cubes0.push_back(c);
+				}
+			}
 			
-			//esfera média
-			glPushMatrix();
-			glTranslatef(0.0f, 2.5f, 0.0f);
-			glColor3ub(218, 229, 232);
-			auxSolidSphere(1.5);
-			glPopMatrix();
 
-			//cabeça
-			glPushMatrix();
-			glTranslatef(0.0f, 4.6f, 0.0f);
-			glColor3ub(218, 229, 232);
-			auxSolidSphere(1.0);
-			glPopMatrix();
+			if (x == 1) {
+				if (cubes1.size() < 10) {
+					c.red = rand() % 255;
+					c.green = rand() % 255;
+					c.blue = rand() % 255;
+					c.x = x;
+					c.y = cubes1.size();
+					cubes1.push_back(c);
+				}
+			}
+			
 
-			//botões
-			glPushMatrix();
-			glTranslatef(0.0f, 2.8f, 1.5f);
-			glColor3ub(191, 40, 40);
-			auxSolidSphere(0.2);
-			glPopMatrix();
+			if (x == 2) {
+				if (cubes2.size() < 10) {
+					c.red = rand() % 255;
+					c.green = rand() % 255;
+					c.blue = rand() % 255;
+					c.x = x;
+					c.y = cubes2.size();
+					cubes2.push_back(c);
+				}
+			}
+			
 
-			glPushMatrix();
-			glTranslatef(0.0f, 2.2f, 1.5f);
-			glColor3ub(191, 40, 40);
-			auxSolidSphere(0.2);
-			glPopMatrix();
+			if (x == 3) {
+				if (cubes3.size() < 10) {
+					c.red = rand() % 255;
+					c.green = rand() % 255;
+					c.blue = rand() % 255;
+					c.x = x;
+					c.y = cubes3.size();
+					cubes3.push_back(c);
+				}
+			}
+			
 
-			//olhos
-			glPushMatrix();
-			glTranslatef(-0.5f, 4.6f, 1.0f);
-			glColor3ub(18, 17, 17);
-			auxSolidSphere(0.2);
-			glPopMatrix();
+			if (x == 4) {
+				if (cubes4.size() < 10) {
+					c.red = rand() % 255;
+					c.green = rand() % 255;
+					c.blue = rand() % 255;
+					c.x = x;
+					c.y = cubes4.size();
+					cubes4.push_back(c);
+				}
+			}
+			
 
-			glPushMatrix();
-			glTranslatef(0.5f, 4.6f, 1.0f);
-			glColor3ub(18, 17, 17);
-			auxSolidSphere(0.2);
-			glPopMatrix();
-
-			//nariz
-			glPushMatrix();
-			glTranslatef(0.0f, 4.2f, 0.8f);
-			glColor3ub(184, 105, 37);
-			auxSolidCone(0.2, 0.6);
-			glPopMatrix();
-
-			//base chapéu
-			glPushMatrix();
-			glTranslatef(0.0f, 4.7f, 0.0f);
-			glColor3ub(67, 71, 196);
-			auxSolidCylinder(1.0f, 0.4f);
-			glPopMatrix();
-
-			//corpo chapéu
-			glPushMatrix();
-			glTranslatef(0.0f, 5.5f, 0.0f);
-			glColor3ub(67, 71, 196);
-			auxSolidCylinder(0.8f, 1.2f);
-			glPopMatrix();
-
-	glPopMatrix();
-
-
-
-	//movimenta o boneco 
-	if (fZ > 45.0f)
-		up = false;
-	else if (fZ <= -45.0f)
-		up = true;
-
-	if (up)
-		fZ += 0.5f;
-	else
-		fZ -= 0.5f;
-
-	for (int i = -50; i < 50; i += 10) {
-		for (int j = -50; j < 50; j += 10) {
-			DrawTree(i, 0.0f, j);
+			if (cubes0.size() == 10 && cubes1.size() == 10 && cubes2.size() == 10 && cubes3.size() == 10 && cubes4.size() == 10) {
+				cubes0.clear();
+				cubes1.clear();
+				cubes2.clear();
+				cubes3.clear();
+				cubes4.clear();
+			}
 		}
-		
+	
+	
+
+	for (Cube& c : cubes0) {
+		GenerateCube(c.red, c.green, c.blue, c.x, c.y);
 	}
 
-	
+	for (Cube& c : cubes1) {
+		GenerateCube(c.red, c.green, c.blue, c.x, c.y);
+	}
 
+	for (Cube& c : cubes2) {
+		GenerateCube(c.red, c.green, c.blue, c.x, c.y);
+	}
 
+	for (Cube& c : cubes3) {
+		GenerateCube(c.red, c.green, c.blue, c.x, c.y);
+	}
 
-
-
-	
+	for (Cube& c : cubes4) {
+		GenerateCube(c.red, c.green, c.blue, c.x, c.y);
+	}
 
 
 
@@ -250,7 +248,11 @@ int CScene4::DrawGLScene(void)	// Função que desenha a cena
 
 	//// Imprime o FPS da aplicação e o Timer
 	glRasterPos2f(10.0f, 80.0f);
-	pTexto->glPrint("Frames-per-Second: %d ---- Timer: %.1f segundos", iFPS, (pTimer->GetTime()/1000));
+	pTexto->glPrint("Frames-per-Second: %d ---- Timer: %.1f segundos", iFPS, (pTimer->GetTime() / 1000));
+
+	//Imprimir size
+	glRasterPos2f(10.0f, 100.0f);
+	pTexto->glPrint("Size  : %d", size);
 
 
 	glPopMatrix();
@@ -264,7 +266,7 @@ int CScene4::DrawGLScene(void)	// Função que desenha a cena
 
 
 
-void CScene4::MouseMove(void) // Tratamento de movimento do mouse
+void CScene5::MouseMove(void) // Tratamento de movimento do mouse
 {
 	// Realiza os cálculos de rotação da visão do Player (através das coordenadas
 	// X do mouse.
@@ -286,7 +288,7 @@ void CScene4::MouseMove(void) // Tratamento de movimento do mouse
 	pCamera->rotateLoc(-fDeltaY, 1.0f, 0.0f, 0.0f);
 }
 
-void CScene4::KeyPressed(void) // Tratamento de teclas pressionadas
+void CScene5::KeyPressed(void) // Tratamento de teclas pressionadas
 {
 
 	// Verifica se a tecla 'W' foi pressionada e move o Player para frente
@@ -326,7 +328,7 @@ void CScene4::KeyPressed(void) // Tratamento de teclas pressionadas
 
 }
 
-void CScene4::KeyDownPressed(WPARAM	wParam) // Tratamento de teclas pressionadas
+void CScene5::KeyDownPressed(WPARAM	wParam) // Tratamento de teclas pressionadas
 {
 	switch (wParam)
 	{
@@ -346,7 +348,7 @@ void CScene4::KeyDownPressed(WPARAM	wParam) // Tratamento de teclas pressionadas
 }
 
 //	Cria um grid horizontal ao longo dos eixos X e Z
-void CScene4::Draw3DSGrid(float width, float length)
+void CScene5::Draw3DSGrid(float width, float length)
 {
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -372,7 +374,7 @@ void CScene4::Draw3DSGrid(float width, float length)
 
 
 
-void CScene4::DrawAxis()
+void CScene5::DrawAxis()
 {
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, 0.0f);
@@ -395,31 +397,11 @@ void CScene4::DrawAxis()
 	glPopMatrix();
 }
 
-void CScene4::DrawTree(float x, float y, float z) {
-	// Copa da árvore
-	glPushMatrix();
-	glTranslatef(x, y, z);
 
+void CScene5::GenerateCube(GLubyte R, GLubyte G, GLubyte B, float x, float y) {
 	glPushMatrix();
-	glTranslatef(0.0f, 4.5f, 10.0f);
-	glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-	glColor3ub(39, 130, 69);
-	auxSolidCone(2.0, 6.0);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.0f, 2.0f, 10.0f);
-	glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-	glColor3ub(33, 110, 58);
-	auxSolidCone(2.0, 6.0);
-	glPopMatrix();
-
-	// Tronco da árvore
-	glPushMatrix();
-	glTranslatef(0.0f, 2.0f, 10.0f);
-	glColor3ub(110, 98, 70);
-	auxSolidCylinder(0.5, 3.0);
-	glPopMatrix();
-
+	glTranslatef(x, y, 0.0f);
+	glColor3ub(R, G, B);
+	auxSolidCube(1.0);
 	glPopMatrix();
 }
