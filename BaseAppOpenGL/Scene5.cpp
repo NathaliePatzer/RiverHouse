@@ -112,6 +112,14 @@ int CScene5::DrawGLScene(void)	// Função que desenha a cena
 
 		if (seg > 1.0f) {
 
+			if (cubes0.size() == 10 && cubes1.size() == 10 && cubes2.size() == 10 && cubes3.size() == 10 && cubes4.size() == 10) {
+				cubes0.clear();
+				cubes1.clear();
+				cubes2.clear();
+				cubes3.clear();
+				cubes4.clear();
+			}
+
 			Cube c;
 			int x = rand() % 5;
 			pTimer->Init();
@@ -176,14 +184,6 @@ int CScene5::DrawGLScene(void)	// Função que desenha a cena
 				}
 			}
 			
-
-			if (cubes0.size() == 10 && cubes1.size() == 10 && cubes2.size() == 10 && cubes3.size() == 10 && cubes4.size() == 10) {
-				cubes0.clear();
-				cubes1.clear();
-				cubes2.clear();
-				cubes3.clear();
-				cubes4.clear();
-			}
 		}
 	
 	
@@ -207,6 +207,8 @@ int CScene5::DrawGLScene(void)	// Função que desenha a cena
 	for (Cube& c : cubes4) {
 		GenerateCube(c.red, c.green, c.blue, c.x, c.y);
 	}
+
+	
 
 
 
